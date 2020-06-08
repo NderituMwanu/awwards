@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <h1>{% block title %} {{ object.title }} {% endblock title %}</h1>
+        <img src= " {{ post.image.url }}" style="height:357px; width: 616px;">
+        <p class=" text-muted">Posted by: {{ post.author }} | Published on:{{ post.created_on }}</p>
+        <p> Rating:
+            
+        </p>
+        <p class="card-text "><a href="{{ object.content | safe }}">Visit Page</a></p>
+      </div>
+    </div>
+    {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+  </div>
+</div>
+
+{% endblock content %}
