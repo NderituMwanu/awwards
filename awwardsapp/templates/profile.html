@@ -1,1 +1,73 @@
-{% extends 'base.html' %}
+{% extends "base.html"%} 
+{% block content %}
+
+
+<!--SEMANTIC UI CDN-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+    
+    .head_text {
+        color: white;
+    }
+    
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to AWWARDS </h3>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title"> {{ profile.user.username }}</h2>
+                    
+                
+                    <img src= " {{ profile.image.url }}" style="height:357px; width: 616px;">
+
+                    <p class="card-text">{{profile.bio}}</p>
+                    <p class="card-text">{{profile.user.firstname}}</p>
+                    <p class="card-text">{{profile.user.lastname}}</p>
+                </div>
+            </div>
+           
+                <div class="row">
+                    {%for post in posts %}
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img src="{{post.image.url}}" alt="" style="height: 357px;width: 616px;">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                </div>
+        
+        </div>
+        {% block sidebar %} {% include 'sidebar2.html' %} {% endblock sidebar %}
+    </div>
+</div>
+{%endblock%}
