@@ -1,51 +1,68 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404,HttpResponseRedirect
-from django.contrib.auth import login, authenticate
-# Create your views here.
-
-#@login_required(login_url='/accounts/login/')
-class PostDetail(generic.DetailView):
-    model = Post
-    template_name = 'post_detail.html'
+from django.contrib.auth import login, authenticate, logout
+from .forms import *
 
 
-#@login_required(login_url='/accounts/login/')
-class PostList(generic.ListView):
+
+@login_required
+def PostList(request):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
-    template_name = 'index.html'
+    context = {
+        'form':Post_project,
+        'post_list': queryset
+    }
 
-# def login(request):
-#     if request.method == "POST":
-#         form = LoginForm(request.POST)
+    return render(request, 'index.html', context )
 
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
+def PostNew(request):
+    data= Post_project(request.POST,request.FILES)
+    if data.is_valid():
+        new_post = data.save()
+        return redirect('profile')
+    else:
+        return redirect('home')
 
-#             HttpResponseRedirect('login')
-#         else:
-#             form = LoginForm()
-#         return render(request, '/post_detail.html', )
+def logout_view(request):
+    logout(request)
+    return redirect('home')
 
-def logout(request):
-    return render(request, '/accounts/login.html')
 
-# def registration(request):
-#     if request.method == 'POST':
-#         form = RegistrationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             user.refresh_from_db()
-#             user.profile.birth_date = form.cleaned_data.get('birth_date')
-#             user.save()
-#             raw_password = form.cleaned_data.get('password1')
-#             user = authenticate(password=raw_password)
-#             login(request, user)
-#             return redirect('home')
-#         else:
-#             form = SignUpForm()
-#         return render(request, 'registration.html', {'form': form})
+def profile(request):
+    if request.method == 'GET':
+        user_posts = Post.objects.filter(author = request.user.id)
+        user_profile = Profile.objects.get(user = request.user)
+        # import pdb; pdb.set_trace()
+
+
+        updateform = UpdateProfile()
+        userupdateform = UserProfile()
+
+        context = {
+            "user":request.user,
+            "posts":user_posts,
+            'profile': user_profile,
+            'form1': updateform,
+            'form2': userupdateform
+        }
+        return render(request, 'profile.html',context)
+
+    else:
+        data = UpdateProfile(request.POST, request.FILES)
+        data2 = UserProfile(request.POST)
+
+
+        if data.is_valid() and data2.is_valid():
+            updatedprofile = data.save()
+            userprofile = data2.save()
+
+            return redirect('profile')
+
+        else:
+            return redirect('profile')
+            
+
 
