@@ -13,7 +13,7 @@ STATUS = (
 class Post(models.Model):
     title = models.CharField(max_length = 30, unique=True)
     author = models.ForeignKey(User, on_delete= models.CASCADE)
-    slug = models.SlugField(max_length=200, unique=True, default="")
+    slug = models.SlugField(max_length=200, default="")
     updated_on = models.DateTimeField(auto_now= True) 
     created_on = models.DateTimeField(auto_now= True)
     content = models.TextField()
@@ -29,3 +29,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE, null=True)
+    bio =models.CharField(max_length = 30, unique=True)
+    updated_on =  models.DateTimeField(auto_now= True)
+    image = models.ImageField(upload_to='media/', default= 'default.jpg')
+
+    def __str__(self):
+        return self.user.username
