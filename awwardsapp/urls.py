@@ -8,11 +8,13 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-    path('', views.PostList.as_view(), name='home'),
-    path('<slug:slug>/', views.PostDetail.as_view(), name='post_detail'),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
-    # url(r'^logout/$', auth_views.LogoutView, {"next_page": '/'})
-    url(r'^logout/$', views.logout, {"next_page": '/accounts/login'}), 
+    path('', views.PostList, name='home'),
+    path('post-project/',views.PostNew,name="post-project"),
+    path('profile/',views.profile,name="profile"),
+    path('logout/',views.logout_view,name="logout"),
+
+    path('accounts/', include('registration.backends.simple.urls')),
+    
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
