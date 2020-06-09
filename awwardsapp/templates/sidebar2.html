@@ -1,0 +1,50 @@
+{% block sidebar %}
+{% load bootstrap3 %}
+
+<!--SEMANTIC UI CDN-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+<style>
+        .card{
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
+       
+</style>
+
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+<div class="card my-4">
+        <h5 class="card-header"></h5>
+    <div class="card-body">
+        <p class="card-text"></p>
+        <button onclick="func1()"
+           class="btn btn-danger">Update Profile</button>
+           <div class="post_project" style="display: block">
+
+                <form method="POST" action = "{%url 'profile'%}" enctype = "multipart/form-data">
+                    {% csrf_token %}
+                    {% bootstrap_form form2 %}
+                    {% bootstrap_form form1 %}
+
+                    <button class="btn btn-warning" type="submit"> submit </button>
+
+                </form>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    function func1(){
+        var x  = document.getElementsByClassName("post_project")
+        if (x.style.display === "none"){
+            x.style.display = "block"
+        }else{
+            x.style.display = "none"
+        }
+    }
+    
+</script>
+
+{% endblock sidebar %}
