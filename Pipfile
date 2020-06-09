@@ -17,5 +17,6 @@ python-decouple = "*"
 django-bootstrap3 = "*"
 django-registration = "==2.4.1"
 
+
 [requires]
 python_version = "3.8"
